@@ -9,6 +9,7 @@ Ext.onReady(function () {
             { name: 'tipo', type: 'string'},
             { name: 'total_saldo', type: 'string'},
             { name: 'total_tran', type: 'string'},
+            { name: 'sucursal', type: 'string'},
             { name: 'transaccionEntidad', type: 'string'}
         ]
     });
@@ -51,6 +52,7 @@ Ext.onReady(function () {
         title: 'Resultado de la busqueda',
         columns: [
             { text: 'Entidad',width: 200,flex: 1,sortable: false,hideable: false,dataIndex: 'transaccionEntidad' },
+            { text: 'Sucursal',width: 200,flex: 1,sortable: false,hideable: false,dataIndex: 'sucursal' },
             { text: 'Tipo',flex: 1,width: 160,dataIndex: 'tipo',renderer:formatoTipoTransaccion },
             { text: 'Descripción',flex: 1,width: 160,dataIndex: 'descripcion' },
             { text: 'Saldo total',flex: 1,dataIndex: 'total_saldo' },
@@ -164,6 +166,17 @@ Ext.onReady(function () {
         layout: 'border',
         items: [
             filterPanel,
+            {
+                xtype:'panel',
+                layout:'hbox',
+                region:'center',
+                items:[
+                    {
+                        xtype:'label',
+                        text:'hola'
+                    }
+                ]
+            },
             grid_panel
         ]
 
@@ -181,10 +194,10 @@ async function obtener_datos_form(datos=null){
         "fecha_fin": datos?.fecha_fin == null || datos?.fecha_fin == "" ? null : datos?.fecha_fin,
         'id_icono': datos?.id_icono == null || datos?.id_icono == "" ? null : datos?.id_icono
     }
-    let url = _URL + 'report-transaccion';
+    let url = _URL + 'report-sucursal';
     var data = await enviar_datos(url, filtro, viewport);
     if(data != -1){
-        reporte.loadData(data.resultados);
+        reporte.loadData(data.resultados.reporte);
     }
 
 }
